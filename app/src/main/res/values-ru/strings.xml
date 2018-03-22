@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TheMovie</string>
+    <string name="action_search">Поиск</string>
+    <string name="upcoming">предстоящий</string>
+    <string name="title_search">Поиск фильма</string>
+    <string name="search_hint">Имя входного фильма</string>
+    <string name="release_date">Дата выпуска</string>
+    <string name="rating">Ставка</string>
+    <string name="overview">обзор</string>
+    <string name="now_playing">Сейчас играет</string>
+    <string name="movie_name">Название фильма</string>
+    <string name="language">язык</string>
+    <string name="change_language">изменить язык</string>
+</resources>

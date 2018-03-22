@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Film</string>
+    <string name="action_search">Cari</string>
+    <string name="language">Bahasa</string>
+    <string name="movie_name">Nama film</string>
+    <string name="now_playing">Sedang tayang</string>
+    <string name="overview">Ikhtisar</string>
+    <string name="rating">Nilai</string>
+    <string name="release_date">Tanggal rilis</string>
+    <string name="search_hint">Masukkan nama film</string>
+    <string name="title_search">Cari film</string>
+    <string name="upcoming">Mendatang</string>
+    <string name="change_language">Ubah bahasa</string>
+</resources>

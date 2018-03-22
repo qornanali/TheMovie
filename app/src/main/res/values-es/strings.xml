@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TheMovie</string>
+    <string name="action_search">Buscar</string>
+    <string name="language">Idioma</string>
+    <string name="movie_name">Nombre de pelicula</string>
+    <string name="now_playing">Jugando ahora</string>
+    <string name="overview">Visión de conjunto</string>
+    <string name="rating">Tarifa</string>
+    <string name="release_date">Fecha de lanzamiento</string>
+    <string name="search_hint">Nombre de la película de entrada</string>
+    <string name="title_search">Buscar película</string>
+    <string name="upcoming">Próximo</string>
+    <string name="change_language">cambiar idioma</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">映画</string>
+    <string name="action_search">サーチ</string>
+    <string name="language">言語</string>
+    <string name="movie_name">映画の名前</string>
+    <string name="now_playing">再生中</string>
+    <string name="overview">概要</string>
+    <string name="rating">レート</string>
+    <string name="release_date">発売日</string>
+    <string name="search_hint">入力ムービー名</string>
+    <string name="title_search">映画を探す</string>
+    <string name="upcoming">今後の予定</string>
+    <string name="change_language">言語を変えてください</string>
+</resources>
