@@ -11,5 +11,6 @@
     <string name="search_hint">Masukkan nama film</string>
     <string name="title_search">Cari film</string>
     <string name="upcoming">Mendatang</string>
-    <string name="change_language">Ubah bahasa</string>
+    <string name="action_change_language">Ubah bahasa</string>
+    <string name="my_favorites">Favoritku</string>
 </resources>

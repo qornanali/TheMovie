@@ -74,23 +74,45 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:text="@string/release_date"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal"
+                            android:weightSum="1">
 
-                        <TextView
-                            android:id="@+id/text_movie_release_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:text="@string/release_date" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.8"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="8dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="@string/release_date"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/text_movie_release_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="16dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="@string/release_date" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/ic_favorite_border"
+                                android:id="@+id/image_do_favorite"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.2" />
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"

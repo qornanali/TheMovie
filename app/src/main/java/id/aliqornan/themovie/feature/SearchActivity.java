@@ -1,14 +1,10 @@
 package id.aliqornan.themovie.feature;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,11 +16,10 @@ import java.util.List;
 import butterknife.BindView;
 import id.aliqornan.themovie.R;
 import id.aliqornan.themovie.adapter.DefaultRVAdapter;
-import id.aliqornan.themovie.adapter.GridMovieHolder;
 import id.aliqornan.themovie.adapter.ItemClickListener;
 import id.aliqornan.themovie.adapter.ListMovieHolder;
-import id.aliqornan.themovie.api.RequestService;
-import id.aliqornan.themovie.api.RetrofitClient;
+import id.aliqornan.themovie.data.RequestService;
+import id.aliqornan.themovie.data.RetrofitClient;
 import id.aliqornan.themovie.model.Movie;
 import id.aliqornan.themovie.model.Response;
 import id.aliqornan.themovie.util.Logger;

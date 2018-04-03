@@ -4,6 +4,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <permission
+        android:name="id.aliqornan.themovie.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="id.aliqornan.themovie.WRITE_DATABASE"
+        android:protectionLevel="normal" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

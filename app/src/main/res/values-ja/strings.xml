@@ -11,5 +11,6 @@
     <string name="search_hint">入力ムービー名</string>
     <string name="title_search">映画を探す</string>
     <string name="upcoming">今後の予定</string>
-    <string name="change_language">言語を変えてください</string>
+    <string name="action_change_language">言語を変更する</string>
+    <string name="my_favorites">私のお気に入り</string>
 </resources>

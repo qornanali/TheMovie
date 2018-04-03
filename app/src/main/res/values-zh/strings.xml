@@ -11,5 +11,6 @@
     <string name="search_hint">输入电影名称</string>
     <string name="title_search">搜索电影</string>
     <string name="upcoming">即将到来</string>
-    <string name="change_language">改变语言</string>
+    <string name="action_change_language">改变语言</string>
+    <string name="my_favorites">我的最爱</string>
 </resources>

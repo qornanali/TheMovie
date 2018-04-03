@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,8 +28,8 @@ import id.aliqornan.themovie.adapter.DefaultRVAdapter;
 import id.aliqornan.themovie.adapter.GridMovieHolder;
 import id.aliqornan.themovie.adapter.ItemClickListener;
 import id.aliqornan.themovie.adapter.SpinnerAdapter;
-import id.aliqornan.themovie.api.RequestService;
-import id.aliqornan.themovie.api.RetrofitClient;
+import id.aliqornan.themovie.data.RequestService;
+import id.aliqornan.themovie.data.RetrofitClient;
 import id.aliqornan.themovie.model.Movie;
 import id.aliqornan.themovie.model.Response;
 import id.aliqornan.themovie.util.Logger;
@@ -52,7 +51,8 @@ public class MainActivity extends BaseActivity {
                 toolbar.getContext(),
                 new String[]{
                         getString(R.string.now_playing),
-                        getString(R.string.upcoming)
+                        getString(R.string.upcoming),
+                        getString(R.string.my_favorites)
                 }));
 
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -147,6 +147,16 @@ public class MainActivity extends BaseActivity {
                 }
             });
 
+            if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {
+                getMoviesFromLocal();
+            } else {
+                getMoviesFromAPI();
+            }
+
+            return rootView;
+        }
+
+        private void getMoviesFromAPI() {
             Call<Response<List<Movie>>> callMovies = (getArguments().getInt(ARG_SECTION_NUMBER) == 1) ?
                     requestService.getUpcomingService() : requestService.getNowPlayingService();
             callMovies.enqueue(new Callback<Response<List<Movie>>>() {
@@ -163,8 +173,10 @@ public class MainActivity extends BaseActivity {
                     Logger.log(Log.ERROR, t.getMessage());
                 }
             });
+        }
 
-            return rootView;
+        private void getMoviesFromLocal(){
+
         }
     }
 

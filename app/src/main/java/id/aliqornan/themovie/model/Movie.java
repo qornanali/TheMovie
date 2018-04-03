@@ -7,9 +7,7 @@ package id.aliqornan.themovie.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
 import java.io.Serializable;
-import java.util.List;
 
 public class Movie implements Serializable {
 
@@ -41,12 +39,9 @@ public class Movie implements Serializable {
     @SerializedName("original_title")
     @Expose
     private String originalTitle;
-    @SerializedName("genre_ids")
-    @Expose
-    private List<Object> genreIds = null;
     @SerializedName("backdrop_path")
     @Expose
-    private Object backdropPath;
+    private String backdropPath;
     @SerializedName("adult")
     @Expose
     private Boolean adult;
@@ -64,7 +59,6 @@ public class Movie implements Serializable {
     }
 
     /**
-     * @param genreIds
      * @param id
      * @param title
      * @param releaseDate
@@ -79,7 +73,7 @@ public class Movie implements Serializable {
      * @param video
      * @param popularity
      */
-    public Movie(Integer voteCount, Integer id, Boolean video, Float voteAverage, String title, Float popularity, String posterPath, String originalLanguage, String originalTitle, List<Object> genreIds, Object backdropPath, Boolean adult, String overview, String releaseDate) {
+    public Movie(Integer voteCount, Integer id, Boolean video, Float voteAverage, String title, Float popularity, String posterPath, String originalLanguage, String originalTitle, String backdropPath, Boolean adult, String overview, String releaseDate) {
         super();
         this.voteCount = voteCount;
         this.id = id;
@@ -90,11 +84,14 @@ public class Movie implements Serializable {
         this.posterPath = posterPath;
         this.originalLanguage = originalLanguage;
         this.originalTitle = originalTitle;
-        this.genreIds = genreIds;
         this.backdropPath = backdropPath;
         this.adult = adult;
         this.overview = overview;
         this.releaseDate = releaseDate;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Integer getVoteCount() {
@@ -169,19 +166,11 @@ public class Movie implements Serializable {
         this.originalTitle = originalTitle;
     }
 
-    public List<Object> getGenreIds() {
-        return genreIds;
-    }
-
-    public void setGenreIds(List<Object> genreIds) {
-        this.genreIds = genreIds;
-    }
-
-    public Object getBackdropPath() {
+    public String getBackdropPath() {
         return backdropPath;
     }
 
-    public void setBackdropPath(Object backdropPath) {
+    public void setBackdropPath(String backdropPath) {
         this.backdropPath = backdropPath;
     }
 
@@ -221,7 +210,6 @@ public class Movie implements Serializable {
                 ", posterPath=" + posterPath +
                 ", originalLanguage='" + originalLanguage + '\'' +
                 ", originalTitle='" + originalTitle + '\'' +
-                ", genreIds=" + genreIds +
                 ", backdropPath=" + backdropPath +
                 ", adult=" + adult +
                 ", overview='" + overview + '\'' +

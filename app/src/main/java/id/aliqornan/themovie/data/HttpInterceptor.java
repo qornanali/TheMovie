@@ -1,4 +1,4 @@
-package id.aliqornan.themovie.api;
+package id.aliqornan.themovie.data;
 
 import android.content.Context;
 import android.util.Log;

@@ -11,5 +11,6 @@
     <string name="search_hint">Nombre de la película de entrada</string>
     <string name="title_search">Buscar película</string>
     <string name="upcoming">Próximo</string>
-    <string name="change_language">cambiar idioma</string>
+    <string name="action_change_language">cambiar el idioma</string>
+    <string name="my_favorites">Mis favoritos</string>
 </resources>
