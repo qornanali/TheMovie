@@ -1,6 +1,8 @@
 package id.aliqornan.themovie.feature;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,6 +31,7 @@ import id.aliqornan.themovie.adapter.DefaultRVAdapter;
 import id.aliqornan.themovie.adapter.GridMovieHolder;
 import id.aliqornan.themovie.adapter.ItemClickListener;
 import id.aliqornan.themovie.adapter.SpinnerAdapter;
+import id.aliqornan.themovie.data.MovieSQLiteHelper;
 import id.aliqornan.themovie.data.RequestService;
 import id.aliqornan.themovie.data.RetrofitClient;
 import id.aliqornan.themovie.model.Movie;
@@ -87,11 +91,13 @@ public class MainActivity extends BaseActivity {
             case R.id.action_search:
                 openActivity(SearchActivity.class, null, false);
                 return true;
+            case R.id.action_see_favorites:
+                openActivity(MyFavoritesActivity.class, null, false);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     public static class MainFragment extends Fragment {
 
@@ -99,6 +105,8 @@ public class MainActivity extends BaseActivity {
 
         @BindView(R.id.rv_movies)
         RecyclerView rvMovies;
+        @BindView(R.id.my_progress_bar)
+        ProgressBar myProgressBar;
 
         List<Movie> movies;
 
@@ -146,9 +154,9 @@ public class MainActivity extends BaseActivity {
                     }
                 }
             });
-
+            movies.clear();
             if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {
-                getMoviesFromLocal();
+                new GetLocalMovieData(getActivity()).execute();
             } else {
                 getMoviesFromAPI();
             }
@@ -165,6 +173,8 @@ public class MainActivity extends BaseActivity {
                     if (response.body() != null) {
                         movies.addAll(response.body().getResults());
                         moviesAdapter.notifyDataSetChanged();
+                        myProgressBar.setVisibility(View.GONE);
+                        rvMovies.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -175,8 +185,35 @@ public class MainActivity extends BaseActivity {
             });
         }
 
-        private void getMoviesFromLocal(){
+        private class GetLocalMovieData extends AsyncTask<String, Void, List<Movie>> {
 
+            MovieSQLiteHelper movieSQLiteHelper;
+
+            public GetLocalMovieData(Context context) {
+                movieSQLiteHelper = new MovieSQLiteHelper(context);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected List<Movie> doInBackground(String... strings) {
+                movieSQLiteHelper.open();
+                List<Movie> movieResult = movieSQLiteHelper.query(null, null, null);
+                movieSQLiteHelper.close();
+                return movieResult;
+            }
+
+            @Override
+            protected void onPostExecute(List<Movie> movieResult) {
+                super.onPostExecute(movieResult);
+                movies.addAll(movieResult);
+                moviesAdapter.notifyDataSetChanged();
+                myProgressBar.setVisibility(View.GONE);
+                rvMovies.setVisibility(View.VISIBLE);
+            }
         }
     }
 

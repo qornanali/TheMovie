@@ -18,6 +18,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider
+            android:name=".data.MovieLocalProvider"
+            android:authorities="id.aliqornan.themovie"
+            android:exported="true"
+            android:readPermission="id.aliqornan.themovie.READ_DATABASE"
+            android:writePermission="id.aliqornan.themovie.WRITE_DATABASE" />
+
         <activity android:name=".feature.SearchActivity" />
         <activity android:name=".feature.DetailMovieActivity" />
         <activity android:name=".feature.MainActivity">
@@ -27,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".feature.MyFavoritesActivity" />
     </application>
 
 </manifest>

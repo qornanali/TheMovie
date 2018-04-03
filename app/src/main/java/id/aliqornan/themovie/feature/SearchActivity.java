@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,8 @@ public class SearchActivity extends BaseActivity {
     EditText etMovieName;
     @BindView(R.id.btn_search_movie)
     Button btnSearch;
+    @BindView(R.id.my_progress_bar)
+    ProgressBar myProgressBar;
 
     List<Movie> movies;
 
@@ -46,6 +49,7 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         initView();
+        displayHome();
         actionBar.setTitle(getString(R.string.title_search));
 
         movies = new ArrayList<>();
@@ -71,6 +75,9 @@ public class SearchActivity extends BaseActivity {
 
                 if (TextUtils.isEmpty(movieName)) return;
 
+                myProgressBar.setVisibility(View.VISIBLE);
+                rvMovies.setVisibility(View.GONE);
+
                 Call<Response<List<Movie>>> callMovies = requestService.getSearchService(movieName, "1");
                 callMovies.enqueue(new Callback<Response<List<Movie>>>() {
                     @Override
@@ -78,6 +85,8 @@ public class SearchActivity extends BaseActivity {
                         if (response.body() != null) {
                             movies.addAll(response.body().getResults());
                             moviesAdapter.notifyDataSetChanged();
+                            myProgressBar.setVisibility(View.GONE);
+                            rvMovies.setVisibility(View.VISIBLE);
                         }
                     }
 

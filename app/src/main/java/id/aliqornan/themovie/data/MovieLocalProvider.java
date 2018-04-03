@@ -17,13 +17,12 @@ import android.support.annotation.Nullable;
 
 public class MovieLocalProvider extends ContentProvider {
 
+    public static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     private static final String AUTHORITY = "id.aliqornan.themovie";
     private static final String BASE_PATH = "movie";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
     private static final int GET_MOVIES = 1;
     private static final int GET_MOVIES_BY_id = 2;
-
-    private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
         uriMatcher.addURI(AUTHORITY, BASE_PATH, GET_MOVIES);
@@ -34,7 +33,7 @@ public class MovieLocalProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        DbSQLiteHelper databaseHelper = new DbSQLiteHelper(getContext());
+        DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
         sqLiteDatabase = databaseHelper.getWritableDatabase();
         return true;
     }
@@ -94,5 +93,37 @@ public class MovieLocalProvider extends ContentProvider {
                 throw new IllegalArgumentException("This is an Unknown URI " + uri);
         }
         return updCount;
+    }
+
+    public Cursor queryByIdProvider(String id) {
+        return sqLiteDatabase.query(MovieSQLiteHelper.MovieEntry.TBL_NAME, null
+                , MovieSQLiteHelper.MovieEntry._ID + " = ?"
+                , new String[]{id}
+                , null
+                , null
+                , null
+                , null);
+    }
+
+    public Cursor queryProvider() {
+        return sqLiteDatabase.query(MovieSQLiteHelper.MovieEntry.TBL_NAME
+                , null
+                , null
+                , null
+                , null
+                , null
+                , MovieSQLiteHelper.MovieEntry._ID + " DESC");
+    }
+
+    public long insertProvider(ContentValues values) {
+        return sqLiteDatabase.insert(MovieSQLiteHelper.MovieEntry.TBL_NAME, null, values);
+    }
+
+    public int updateProvider(String id, ContentValues values) {
+        return sqLiteDatabase.update(MovieSQLiteHelper.MovieEntry.TBL_NAME, values, MovieSQLiteHelper.MovieEntry._ID + " = ?", new String[]{id});
+    }
+
+    public int deleteProvider(String id) {
+        return sqLiteDatabase.delete(MovieSQLiteHelper.MovieEntry.TBL_NAME, MovieSQLiteHelper.MovieEntry._ID + " = ?", new String[]{id});
     }
 }

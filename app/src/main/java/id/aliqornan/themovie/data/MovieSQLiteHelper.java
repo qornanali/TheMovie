@@ -18,9 +18,9 @@ import id.aliqornan.themovie.model.Movie;
 
 public class MovieSQLiteHelper {
 
+    public SQLiteDatabase database;
     private Context context;
-    private DbSQLiteHelper dbHelper;
-    private SQLiteDatabase database;
+    private DatabaseHelper dbHelper;
 
     public MovieSQLiteHelper(Context context) {
         this.context = context;
@@ -48,7 +48,7 @@ public class MovieSQLiteHelper {
     }
 
     public MovieSQLiteHelper open() throws SQLException {
-        dbHelper = new DbSQLiteHelper(context);
+        dbHelper = new DatabaseHelper(context);
         database = dbHelper.getWritableDatabase();
         return this;
     }
@@ -86,6 +86,11 @@ public class MovieSQLiteHelper {
         }
         cursor.close();
         return movies;
+    }
+
+    public Movie queryById(int id, String columns[], String selection) {
+        List<Movie> movies = query(columns, MovieEntry._ID + " = " + id + " " + (selection != null ? "AND " + selection : ""), "1");
+        return movies.size() > 0 ? movies.get(0) : null;
     }
 
     public int count(String selection) {
@@ -148,7 +153,7 @@ public class MovieSQLiteHelper {
 
     public static class MovieEntry implements BaseColumns {
 
-        public static final String TBL_NAME = "movie";
+        public static final String TBL_NAME = "favorite_movie";
         public static final String COL_NAME_VOTE_COUNT = "vote_count";
         public static final String COL_NAME_VIDEO = "video";
         public static final String COL_NAME_VOTE_AVERAGE = "vote_average";
