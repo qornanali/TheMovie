@@ -91,9 +91,9 @@ public class MainActivity extends BaseActivity {
             case R.id.action_search:
                 openActivity(SearchActivity.class, null, false);
                 return true;
-            case R.id.action_see_favorites:
-                openActivity(MyFavoritesActivity.class, null, false);
-                return true;
+//            case R.id.action_see_favorites:
+//                openActivity(MyFavoritesActivity.class, null, false);
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
