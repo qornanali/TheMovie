@@ -3,7 +3,6 @@ package id.aliqornan.themovie.data;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -20,8 +19,11 @@ public class MovieLocalProvider extends ContentProvider {
 
     public static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     private static final String AUTHORITY = "id.aliqornan.themovie";
-    private static final String BASE_PATH = "movie";
-    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
+    private static final String BASE_PATH = MovieEntry.TBL_NAME;
+    public static final Uri CONTENT_URI = new Uri.Builder().scheme("content")
+            .authority(AUTHORITY)
+            .appendPath(BASE_PATH)
+            .build();
     private static final int GET_MOVIES = 1;
     private static final int GET_MOVIES_BY_id = 2;
 
@@ -32,7 +34,6 @@ public class MovieLocalProvider extends ContentProvider {
 
     private SQLiteDatabase sqLiteDatabase;
     private DatabaseHelper databaseHelper;
-    private Context context;
 
     @Override
     public boolean onCreate() {
@@ -45,11 +46,9 @@ public class MovieLocalProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         Cursor cursor = null;
-
         if (uriMatcher.match(uri) == GET_MOVIES) {
-            cursor = sqLiteDatabase.query(MovieEntry.TBL_NAME, null, null, null, null, null, MovieEntry._ID + " DESC");
+            cursor = sqLiteDatabase.query(MovieEntry.TBL_NAME, projection, selection, selectionArgs, null, null, sortOrder == null ? MovieEntry._ID + " DESC" : sortOrder);
         }
-
         return cursor;
     }
 

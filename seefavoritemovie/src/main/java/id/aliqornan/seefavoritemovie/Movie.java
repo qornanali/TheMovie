@@ -1,4 +1,4 @@
-package id.aliqornan.themovie.model;
+package id.aliqornan.seefavoritemovie;
 
 /**
  * Created by qornanali on 21/03/18.
@@ -7,59 +7,25 @@ package id.aliqornan.themovie.model;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
-
-import id.aliqornan.themovie.data.MovieEntry;
 
 public class Movie implements Serializable {
 
-    private final static long serialVersionUID = -1776050687088968714L;
-    @SerializedName("vote_count")
-    @Expose
     private Integer voteCount;
-    @SerializedName("id")
-    @Expose
     private Integer id;
-    @SerializedName("video")
-    @Expose
     private Boolean video;
-    @SerializedName("vote_average")
-    @Expose
     private Float voteAverage;
-    @SerializedName("title")
-    @Expose
     private String title;
-    @SerializedName("popularity")
-    @Expose
     private Float popularity;
-    @SerializedName("poster_path")
-    @Expose
     private String posterPath;
-    @SerializedName("original_language")
-    @Expose
     private String originalLanguage;
-    @SerializedName("original_title")
-    @Expose
     private String originalTitle;
-    @SerializedName("backdrop_path")
-    @Expose
     private String backdropPath;
-    @SerializedName("adult")
-    @Expose
     private Boolean adult;
-    @SerializedName("overview")
-    @Expose
     private String overview;
-    @SerializedName("release_date")
-    @Expose
     private String releaseDate;
 
-    /**
-     * No args constructor for use in serialization
-     */
+
     public Movie() {
     }
 
@@ -109,10 +75,6 @@ public class Movie implements Serializable {
         setVoteCount(cursor.getInt(cursor.getColumnIndexOrThrow(MovieEntry.COL_NAME_VOTE_COUNT)));
         setVideo(cursor.getInt(cursor.getColumnIndexOrThrow(MovieEntry.COL_NAME_VIDEO)) == 1 ? true : false);
         setAdult(cursor.getInt(cursor.getColumnIndexOrThrow(MovieEntry.COL_NAME_ADULT)) == 1 ? true : false);
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
     }
 
     public ContentValues toContentValues() {

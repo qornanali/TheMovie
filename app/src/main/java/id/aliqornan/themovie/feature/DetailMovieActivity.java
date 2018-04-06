@@ -49,8 +49,8 @@ public class DetailMovieActivity extends BaseActivity {
         movieSQLiteHelper = new MovieSQLiteHelper(this);
         try {
             movie = (Movie) getIntent().getExtras().getSerializable("movie");
-            Picasso.with(this).load(BuildConfig.BASE_IMAGE + "w154/" + movie.getPosterPath()).error(R.color.colorAccent).into(ivMoviePoster);
-            Picasso.with(this).load(BuildConfig.BASE_IMAGE + "w500/" + movie.getBackdropPath()).error(R.color.colorAccent).into(ivMovieBackdrop);
+            Picasso.with(this).load(BuildConfig.BASE_IMAGE + "w154" + movie.getPosterPath()).error(R.color.colorAccent).into(ivMoviePoster);
+            Picasso.with(this).load(BuildConfig.BASE_IMAGE + "w500" + movie.getBackdropPath()).error(R.color.colorAccent).into(ivMovieBackdrop);
             setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
             getSupportActionBar().setTitle(movie.getTitle());
             tvMovieOverview.setText(movie.getOverview());

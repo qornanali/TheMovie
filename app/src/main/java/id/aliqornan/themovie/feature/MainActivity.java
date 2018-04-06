@@ -31,6 +31,7 @@ import id.aliqornan.themovie.adapter.DefaultRVAdapter;
 import id.aliqornan.themovie.adapter.GridMovieHolder;
 import id.aliqornan.themovie.adapter.ItemClickListener;
 import id.aliqornan.themovie.adapter.SpinnerAdapter;
+import id.aliqornan.themovie.data.MovieSQLiteHelper;
 import id.aliqornan.themovie.data.RequestService;
 import id.aliqornan.themovie.data.RetrofitClient;
 import id.aliqornan.themovie.model.Movie;

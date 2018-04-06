@@ -35,7 +35,7 @@ public class ListMovieHolder extends BaseHolder<Movie> {
     public void bind(Context context, int position, Movie data) {
         tvMovieName.setText(data.getTitle());
         tvMovieOverview.setText(data.getOverview());
-        Picasso.with(context).load(BuildConfig.BASE_IMAGE + "w154/" + data.getPosterPath()).error(R.color.colorAccent).into(ivMoviePoster);
+        Picasso.with(context).load(BuildConfig.BASE_IMAGE + "w154" + data.getPosterPath()).error(R.color.colorAccent).into(ivMoviePoster);
         tvMovieRating.setText(String.format(context.getString(R.string.rating_value), data.getVoteAverage(), data.getVoteCount()));
     }
 
