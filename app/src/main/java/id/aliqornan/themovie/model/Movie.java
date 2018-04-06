@@ -4,6 +4,9 @@ package id.aliqornan.themovie.model;
  * Created by qornanali on 21/03/18.
  */
 
+import android.content.ContentValues;
+import android.database.Cursor;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -88,6 +91,40 @@ public class Movie implements Serializable {
         this.adult = adult;
         this.overview = overview;
         this.releaseDate = releaseDate;
+    }
+
+    public Movie(Cursor cursor) {
+        setId(cursor.getInt(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry._ID)));
+        setBackdropPath(cursor.getString(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry.COL_NAME_BACKDROP_PATH)));
+        setOriginalLanguage(cursor.getString(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry.COL_NAME_ORIGINAL_LANGUAGE)));
+        setOverview(cursor.getString(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry.COL_NAME_OVERVIEW)));
+        setOriginalTitle(cursor.getString(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry.COL_NAME_ORIGINAL_TITLE)));
+        setPopularity(cursor.getFloat(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry.COL_NAME_POPULARITY)));
+        setPosterPath(cursor.getString(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry.COL_NAME_POSTER_PATH)));
+        setReleaseDate(cursor.getString(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry.COL_NAME_RELEASE_DATE)));
+        setTitle(cursor.getString(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry.COL_NAME_TITLE)));
+        setVoteAverage(cursor.getFloat(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry.COL_NAME_VOTE_AVERAGE)));
+        setVoteCount(cursor.getInt(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry.COL_NAME_VOTE_COUNT)));
+        setVideo(cursor.getInt(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry.COL_NAME_VIDEO)) == 1 ? true : false);
+        setAdult(cursor.getInt(cursor.getColumnIndexOrThrow(MovieSQLiteHelper.MovieEntry.COL_NAME_ADULT)) == 1 ? true : false);
+    }
+
+    public ContentValues toContentValues(){
+        ContentValues args = new ContentValues();
+        args.put(MovieSQLiteHelper.MovieEntry._ID, getId());
+        args.put(MovieSQLiteHelper.MovieEntry.COL_NAME_BACKDROP_PATH, getBackdropPath());
+        args.put(MovieSQLiteHelper.MovieEntry.COL_NAME_ORIGINAL_LANGUAGE, getOriginalLanguage());
+        args.put(MovieSQLiteHelper.MovieEntry.COL_NAME_OVERVIEW, getOverview());
+        args.put(MovieSQLiteHelper.MovieEntry.COL_NAME_ORIGINAL_TITLE, getOriginalTitle());
+        args.put(MovieSQLiteHelper.MovieEntry.COL_NAME_POPULARITY, getPopularity());
+        args.put(MovieSQLiteHelper.MovieEntry.COL_NAME_POSTER_PATH, getPosterPath());
+        args.put(MovieSQLiteHelper.MovieEntry.COL_NAME_RELEASE_DATE, getReleaseDate());
+        args.put(MovieSQLiteHelper.MovieEntry.COL_NAME_TITLE, getTitle());
+        args.put(MovieSQLiteHelper.MovieEntry.COL_NAME_VOTE_AVERAGE, getVoteAverage());
+        args.put(MovieSQLiteHelper.MovieEntry.COL_NAME_VOTE_COUNT, getVoteCount());
+        args.put(MovieSQLiteHelper.MovieEntry.COL_NAME_VIDEO, getVideo() == true ? 1 : 0);
+        args.put(MovieSQLiteHelper.MovieEntry.COL_NAME_ADULT, getAdult() == true ? 1 : 0);
+        return args;
     }
 
     public static long getSerialVersionUID() {

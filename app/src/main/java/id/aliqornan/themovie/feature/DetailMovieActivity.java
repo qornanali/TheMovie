@@ -38,7 +38,6 @@ public class DetailMovieActivity extends BaseActivity {
     Movie movie;
     MovieSQLiteHelper movieSQLiteHelper;
     boolean isFavorited = false;
-    boolean isLoadingFinish = false;
     ProgressDialog progressDialog;
 
     @Override
@@ -64,7 +63,7 @@ public class DetailMovieActivity extends BaseActivity {
             progressDialog.setMessage("");
             progressDialog.setCancelable(false);
             progressDialog.show();
-            new getLocalMovieData(this).execute();
+            new GetFavoriteDatabyIdAsnyc(this).execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,11 +92,11 @@ public class DetailMovieActivity extends BaseActivity {
         }
     }
 
-    private class getLocalMovieData extends AsyncTask<String, Void, Movie> {
+    private class GetFavoriteDatabyIdAsnyc extends AsyncTask<String, Void, Movie> {
 
         Context context;
 
-        public getLocalMovieData(Context context) {
+        public GetFavoriteDatabyIdAsnyc(Context context) {
             this.context = context;
         }
 

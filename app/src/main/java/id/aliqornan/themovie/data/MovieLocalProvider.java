@@ -3,6 +3,7 @@ package id.aliqornan.themovie.data;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -30,10 +31,12 @@ public class MovieLocalProvider extends ContentProvider {
     }
 
     private SQLiteDatabase sqLiteDatabase;
+    private DatabaseHelper databaseHelper;
+    private Context context;
 
     @Override
     public boolean onCreate() {
-        DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
+        databaseHelper = new DatabaseHelper(getContext());
         sqLiteDatabase = databaseHelper.getWritableDatabase();
         return true;
     }
@@ -44,7 +47,7 @@ public class MovieLocalProvider extends ContentProvider {
         Cursor cursor = null;
 
         if (uriMatcher.match(uri) == GET_MOVIES) {
-            cursor = sqLiteDatabase.query(MovieSQLiteHelper.MovieEntry.TBL_NAME, null, null, null, null, null, MovieSQLiteHelper.MovieEntry._ID + " DESC");
+            cursor = sqLiteDatabase.query(MovieEntry.TBL_NAME, null, null, null, null, null, MovieEntry._ID + " DESC");
         }
 
         return cursor;
@@ -60,7 +63,7 @@ public class MovieLocalProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-        long id = sqLiteDatabase.insert(MovieSQLiteHelper.MovieEntry.TBL_NAME, null, contentValues);
+        long id = sqLiteDatabase.insert(MovieEntry.TBL_NAME, null, contentValues);
 
         if (id > 0) {
             Uri mUri = ContentUris.withAppendedId(CONTENT_URI, id);
@@ -74,7 +77,7 @@ public class MovieLocalProvider extends ContentProvider {
         int delCount = 0;
         switch (uriMatcher.match(uri)) {
             case GET_MOVIES:
-                delCount = sqLiteDatabase.delete(MovieSQLiteHelper.MovieEntry.TBL_NAME, s, strings);
+                delCount = sqLiteDatabase.delete(MovieEntry.TBL_NAME, s, strings);
                 break;
             default:
                 throw new IllegalArgumentException("This is an Unknown URI " + uri);
@@ -87,7 +90,7 @@ public class MovieLocalProvider extends ContentProvider {
         int updCount = 0;
         switch (uriMatcher.match(uri)) {
             case GET_MOVIES:
-                updCount = sqLiteDatabase.update(MovieSQLiteHelper.MovieEntry.TBL_NAME, contentValues, s, strings);
+                updCount = sqLiteDatabase.update(MovieEntry.TBL_NAME, contentValues, s, strings);
                 break;
             default:
                 throw new IllegalArgumentException("This is an Unknown URI " + uri);
@@ -95,35 +98,5 @@ public class MovieLocalProvider extends ContentProvider {
         return updCount;
     }
 
-    public Cursor queryByIdProvider(String id) {
-        return sqLiteDatabase.query(MovieSQLiteHelper.MovieEntry.TBL_NAME, null
-                , MovieSQLiteHelper.MovieEntry._ID + " = ?"
-                , new String[]{id}
-                , null
-                , null
-                , null
-                , null);
-    }
 
-    public Cursor queryProvider() {
-        return sqLiteDatabase.query(MovieSQLiteHelper.MovieEntry.TBL_NAME
-                , null
-                , null
-                , null
-                , null
-                , null
-                , MovieSQLiteHelper.MovieEntry._ID + " DESC");
-    }
-
-    public long insertProvider(ContentValues values) {
-        return sqLiteDatabase.insert(MovieSQLiteHelper.MovieEntry.TBL_NAME, null, values);
-    }
-
-    public int updateProvider(String id, ContentValues values) {
-        return sqLiteDatabase.update(MovieSQLiteHelper.MovieEntry.TBL_NAME, values, MovieSQLiteHelper.MovieEntry._ID + " = ?", new String[]{id});
-    }
-
-    public int deleteProvider(String id) {
-        return sqLiteDatabase.delete(MovieSQLiteHelper.MovieEntry.TBL_NAME, MovieSQLiteHelper.MovieEntry._ID + " = ?", new String[]{id});
-    }
 }
