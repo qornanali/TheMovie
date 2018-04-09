@@ -18,4 +18,6 @@
     <string name="log_sending_response" formatted="false" translatable="false">Sending request %s on %s%n%s</string>
     <string name="log_encoded_path" formatted="false" translatable="false">Encoded path %s</string>
     <string name="my_favorites">My favorites</string>
+    <string name="no_data">No data</string>
+    <string name="example">Example</string>
 </resources>

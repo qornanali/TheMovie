@@ -44,4 +44,7 @@ dependencies {
 
     compile 'com.jakewharton:butterknife:8.7.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+
+    compile 'com.firebase:firebase-jobdispatcher:0.8.2'
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }

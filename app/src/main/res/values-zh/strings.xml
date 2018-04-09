@@ -13,4 +13,6 @@
     <string name="upcoming">即将到来</string>
     <string name="action_change_language">改变语言</string>
     <string name="my_favorites">我的最爱</string>
+    <string name="no_data">没有数据</string>
+    <string name="example">例子</string>
 </resources>

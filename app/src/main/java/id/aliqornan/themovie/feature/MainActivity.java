@@ -103,7 +103,7 @@ public class MainActivity extends BaseActivity {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        @BindView(R.id.rv_movies)
+        @BindView(R.id.recycler_view_movies)
         RecyclerView rvMovies;
         @BindView(R.id.my_progress_bar)
         ProgressBar myProgressBar;

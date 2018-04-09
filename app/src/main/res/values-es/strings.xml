@@ -13,4 +13,6 @@
     <string name="upcoming">Próximo</string>
     <string name="action_change_language">cambiar el idioma</string>
     <string name="my_favorites">Mis favoritos</string>
+    <string name="no_data">Sin datos</string>
+    <string name="example">Ejemplo</string>
 </resources>

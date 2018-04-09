@@ -13,4 +13,6 @@
     <string name="upcoming">Mendatang</string>
     <string name="action_change_language">Ubah bahasa</string>
     <string name="my_favorites">Favoritku</string>
+    <string name="no_data">Tidak ada data</string>
+    <string name="example">Contoh</string>
 </resources>

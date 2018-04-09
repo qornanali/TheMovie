@@ -13,4 +13,6 @@
     <string name="language">язык</string>
     <string name="action_change_language">изменить язык</string>
     <string name="my_favorites">Мои избранные</string>
+    <string name="no_data">Нет данных</string>
+    <string name="example">пример</string>
 </resources>

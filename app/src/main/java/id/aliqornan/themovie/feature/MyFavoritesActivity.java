@@ -12,7 +12,7 @@ import id.aliqornan.themovie.model.Movie;
 
 public class MyFavoritesActivity extends BaseActivity {
 
-    @BindView(R.id.rv_movies)
+    @BindView(R.id.recycler_view_movies)
     RecyclerView rvMovies;
     @BindView(R.id.my_progress_bar)
     ProgressBar myProgressBar;

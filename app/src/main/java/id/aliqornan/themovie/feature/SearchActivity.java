@@ -29,7 +29,7 @@ import retrofit2.Callback;
 
 public class SearchActivity extends BaseActivity {
 
-    @BindView(R.id.rv_movies)
+    @BindView(R.id.recycler_view_movies)
     RecyclerView rvMovies;
     @BindView(R.id.edit_movie_name)
     EditText etMovieName;
