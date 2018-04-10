@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.widget.RemoteViews;
 
 import id.aliqornan.themovie.R;
-import id.aliqornan.themovie.data.StackWidgetService;
+import id.aliqornan.themovie.util.StackWidgetService;
 
 /**
  * Implementation of App Widget functionality.

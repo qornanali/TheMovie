@@ -8,7 +8,7 @@ import java.util.Locale;
 
 import id.aliqornan.themovie.BuildConfig;
 import id.aliqornan.themovie.R;
-import id.aliqornan.themovie.util.Logger;
+import id.aliqornan.themovie.lib.Logger;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;

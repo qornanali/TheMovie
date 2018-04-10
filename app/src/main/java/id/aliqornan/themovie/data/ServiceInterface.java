@@ -10,7 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface RequestService {
+public interface ServiceInterface {
 
     @GET(BuildConfig.GET_SEARCH)
     Call<Response<List<Movie>>> getSearchService(@Query("query") String query, @Query("page") String page);

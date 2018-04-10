@@ -1,4 +1,4 @@
-package id.aliqornan.themovie.data;
+package id.aliqornan.themovie.util;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -15,9 +15,10 @@ import java.util.List;
 
 import id.aliqornan.themovie.BuildConfig;
 import id.aliqornan.themovie.R;
+import id.aliqornan.themovie.data.MovieSQLiteHelper;
 import id.aliqornan.themovie.feature.MyFavoriteWidget;
 import id.aliqornan.themovie.model.Movie;
-import id.aliqornan.themovie.util.DateFormatter;
+import id.aliqornan.themovie.lib.DateFormatter;
 
 /**
  * Created by qornanali on 09/04/18.

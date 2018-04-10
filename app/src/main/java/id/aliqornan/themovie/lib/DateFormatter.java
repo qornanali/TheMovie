@@ -1,4 +1,4 @@
-package id.aliqornan.themovie.util;
+package id.aliqornan.themovie.lib;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

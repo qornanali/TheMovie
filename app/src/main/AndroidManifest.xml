@@ -3,6 +3,8 @@
     package="id.aliqornan.themovie">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <permission
         android:name="id.aliqornan.themovie.READ_DATABASE"
@@ -18,6 +20,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <receiver android:name=".util.BroadcastManager">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
         <provider
             android:name=".data.MovieLocalProvider"
             android:authorities="id.aliqornan.themovie"
@@ -34,7 +41,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".feature.MyFavoritesActivity" />
 
         <receiver android:name=".feature.MyFavoriteWidget">
             <intent-filter>
@@ -45,9 +51,17 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/my_favorite_widget_info" />
         </receiver>
+
         <service
-            android:name=".data.StackWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+            android:name=".util.StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service
+            android:name=".util.ReminderService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

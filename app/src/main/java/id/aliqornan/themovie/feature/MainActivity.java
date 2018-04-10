@@ -1,15 +1,14 @@
 package id.aliqornan.themovie.feature;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,29 +20,39 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import id.aliqornan.themovie.R;
 import id.aliqornan.themovie.adapter.DefaultRVAdapter;
 import id.aliqornan.themovie.adapter.GridMovieHolder;
 import id.aliqornan.themovie.adapter.ItemClickListener;
 import id.aliqornan.themovie.adapter.SpinnerAdapter;
 import id.aliqornan.themovie.data.MovieSQLiteHelper;
-import id.aliqornan.themovie.data.RequestService;
 import id.aliqornan.themovie.data.RetrofitClient;
+import id.aliqornan.themovie.data.ServiceInterface;
 import id.aliqornan.themovie.model.Movie;
 import id.aliqornan.themovie.model.Response;
-import id.aliqornan.themovie.util.Logger;
+import id.aliqornan.themovie.util.AsyncLoader;
 import retrofit2.Call;
-import retrofit2.Callback;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
+    static int LOAD_MOVIES_ID = 110;
+    int mPosition = 0;
     @BindView(R.id.my_spinner)
     Spinner spinner;
+    @BindView(R.id.recycler_view_movies)
+    RecyclerView rvMovies;
+    @BindView(R.id.my_progress_bar)
+    ProgressBar myProgressBar;
+    List<Movie> movies;
+    boolean initLoader = false;
+    DefaultRVAdapter<GridMovieHolder, Movie> moviesAdapter;
+    ServiceInterface serviceInterface;
+    MovieSQLiteHelper movieSQLiteHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +71,43 @@ public class MainActivity extends BaseActivity {
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.my_container, MainFragment.newInstance(position + 1))
-                        .commit();
+                mPosition = position;
+                System.out.println("OY OY OY");
+                if (!initLoader) {
+                    initLoader = true;
+                    getSupportLoaderManager().initLoader(LOAD_MOVIES_ID, null, MainActivity.this);
+                } else {
+                    getSupportLoaderManager().restartLoader(LOAD_MOVIES_ID, null, MainActivity.this);
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        movies = new ArrayList<>();
+        moviesAdapter = new DefaultRVAdapter<GridMovieHolder, Movie>(movies, this) {
+            @Override
+            public GridMovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                return new GridMovieHolder(inflate(R.layout.item_grid_movie, parent, false));
+            }
+        };
+        rvMovies.setLayoutManager(new GridLayoutManager(this, 2));
+        rvMovies.setNestedScrollingEnabled(false);
+        rvMovies.setAdapter(moviesAdapter);
+        moviesAdapter.setItemClickListener(new ItemClickListener<Movie>() {
+            @Override
+            public void onItemClick(int position, Movie data) {
+                if (data != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("movie", data);
+                    openActivity(DetailMovieActivity.class, bundle, false);
+                }
+            }
+        });
+        movieSQLiteHelper = new MovieSQLiteHelper(this);
+        serviceInterface = RetrofitClient.init(this).create(ServiceInterface.class);
     }
 
 
@@ -91,130 +128,62 @@ public class MainActivity extends BaseActivity {
             case R.id.action_search:
                 openActivity(SearchActivity.class, null, false);
                 return true;
-//            case R.id.action_see_favorites:
-//                openActivity(MyFavoritesActivity.class, null, false);
-//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public static class MainFragment extends Fragment {
+    @NonNull
+    @Override
+    public Loader<List<Movie>> onCreateLoader(int id, @Nullable Bundle args) {
+        onDataLoading(true);
+        return new AsyncLoader<List<Movie>>(this) {
 
-        private static final String ARG_SECTION_NUMBER = "section_number";
+            @Nullable
+            @Override
+            protected List<Movie> onLoadInBackground() {
+                return loadData();
+            }
+        };
+    }
 
-        @BindView(R.id.recycler_view_movies)
-        RecyclerView rvMovies;
-        @BindView(R.id.my_progress_bar)
-        ProgressBar myProgressBar;
-
-        List<Movie> movies;
-
-        DefaultRVAdapter<GridMovieHolder, Movie> moviesAdapter;
-
-        RequestService requestService;
-
-        public MainFragment() {
-        }
-
-        public static MainFragment newInstance(int sectionNumber) {
-            MainFragment fragment = new MainFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            ButterKnife.bind(this, rootView);
-            movies = new ArrayList<>();
-            requestService = RetrofitClient.init(getActivity()).create(RequestService.class);
-            moviesAdapter = new DefaultRVAdapter<GridMovieHolder, Movie>(movies, getActivity()) {
-                @Override
-                public GridMovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                    return new GridMovieHolder(inflate(R.layout.item_grid_movie, parent, false));
-                }
-            };
-            rvMovies.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-            rvMovies.setNestedScrollingEnabled(false);
-            rvMovies.setAdapter(moviesAdapter);
-
-            moviesAdapter.setItemClickListener(new ItemClickListener<Movie>() {
-                @Override
-                public void onItemClick(int position, Movie data) {
-                    if (data != null) {
-                        {
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("movie", data);
-                            ((BaseActivity) getActivity()).openActivity(DetailMovieActivity.class, bundle, false);
-                        }
-                    }
-                }
-            });
+    @Override
+    public void onLoadFinished(@NonNull Loader<List<Movie>> loader, List<Movie> data) {
+        if (data != null) {
             movies.clear();
-            if (getArguments().getInt(ARG_SECTION_NUMBER) == 3) {
-                new GetLocalMovieData(getActivity()).execute();
-            } else {
-                getMoviesFromAPI();
-            }
-
-            return rootView;
-        }
-
-        private void getMoviesFromAPI() {
-            Call<Response<List<Movie>>> callMovies = (getArguments().getInt(ARG_SECTION_NUMBER) == 1) ?
-                    requestService.getUpcomingService() : requestService.getNowPlayingService();
-            callMovies.enqueue(new Callback<Response<List<Movie>>>() {
-                @Override
-                public void onResponse(Call<Response<List<Movie>>> call, retrofit2.Response<Response<List<Movie>>> response) {
-                    if (response.body() != null) {
-                        movies.addAll(response.body().getResults());
-                        moviesAdapter.notifyDataSetChanged();
-                        myProgressBar.setVisibility(View.GONE);
-                        rvMovies.setVisibility(View.VISIBLE);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Response<List<Movie>>> call, Throwable t) {
-                    Logger.log(Log.ERROR, t.getMessage());
-                }
-            });
-        }
-
-        private class GetLocalMovieData extends AsyncTask<String, Void, List<Movie>> {
-
-            MovieSQLiteHelper movieSQLiteHelper;
-
-            public GetLocalMovieData(Context context) {
-                movieSQLiteHelper = new MovieSQLiteHelper(context);
-            }
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected List<Movie> doInBackground(String... strings) {
-                movieSQLiteHelper.open();
-                List<Movie> movieResult = movieSQLiteHelper.query(null, null, null);
-                movieSQLiteHelper.close();
-                return movieResult;
-            }
-
-            @Override
-            protected void onPostExecute(List<Movie> movieResult) {
-                super.onPostExecute(movieResult);
-                movies.addAll(movieResult);
-                moviesAdapter.notifyDataSetChanged();
-                myProgressBar.setVisibility(View.GONE);
-                rvMovies.setVisibility(View.VISIBLE);
-            }
+            movies.addAll(data);
+            moviesAdapter.notifyDataSetChanged();
+            onDataLoading(false);
         }
     }
 
+    @Override
+    public void onLoaderReset(@NonNull Loader<List<Movie>> loader) {
+
+    }
+
+    public void onDataLoading(boolean yes) {
+        rvMovies.setVisibility(yes ? View.GONE : View.VISIBLE);
+        myProgressBar.setVisibility(yes ? View.VISIBLE : View.GONE);
+    }
+
+    private List<Movie> loadData() {
+        System.out.println("LOADINBACKGROUND");
+        List<Movie> movieResult = new ArrayList<>();
+        if (mPosition == 2) {
+            movieSQLiteHelper.open();
+            movieResult = movieSQLiteHelper.query(null, null, null);
+            movieSQLiteHelper.close();
+        } else {
+            Call<Response<List<Movie>>> callMovies = (mPosition == 0) ?
+                    serviceInterface.getUpcomingService() : serviceInterface.getNowPlayingService();
+            try {
+                movieResult = callMovies.execute().body().getResults();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return movieResult;
+    }
 }

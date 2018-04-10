@@ -11,7 +11,6 @@ import butterknife.BindView;
 import id.aliqornan.themovie.BuildConfig;
 import id.aliqornan.themovie.R;
 import id.aliqornan.themovie.model.Movie;
-import id.aliqornan.themovie.util.DateFormatter;
 
 /**
  * Created by qornanali on 22/03/18.

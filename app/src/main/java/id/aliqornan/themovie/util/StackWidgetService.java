@@ -1,4 +1,4 @@
-package id.aliqornan.themovie.data;
+package id.aliqornan.themovie.util;
 
 import android.content.Intent;
 import android.widget.RemoteViewsService;
