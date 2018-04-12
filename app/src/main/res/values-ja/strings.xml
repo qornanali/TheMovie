@@ -15,4 +15,8 @@
     <string name="my_favorites">私のお気に入り</string>
     <string name="no_data">データなし</string>
     <string name="example">例</string>
+    <string name="notif_release_today">"%s 今日は解放される! "</string>
+    <string name="open_app">あなたがいなくて</string>
+    <string name="turn_off_notif">通知をオフにする</string>
+    <string name="turn_on_notif">通知をオンにする</string>
 </resources>

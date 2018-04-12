@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,9 +34,11 @@ import id.aliqornan.themovie.adapter.SpinnerAdapter;
 import id.aliqornan.themovie.data.MovieSQLiteHelper;
 import id.aliqornan.themovie.data.RetrofitClient;
 import id.aliqornan.themovie.data.ServiceInterface;
+import id.aliqornan.themovie.lib.Logger;
 import id.aliqornan.themovie.model.Movie;
 import id.aliqornan.themovie.model.Response;
-import id.aliqornan.themovie.util.AsyncLoader;
+import id.aliqornan.themovie.model.AsyncLoader;
+import id.aliqornan.themovie.util.ReminderManager;
 import retrofit2.Call;
 
 public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
@@ -53,12 +56,14 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     DefaultRVAdapter<GridMovieHolder, Movie> moviesAdapter;
     ServiceInterface serviceInterface;
     MovieSQLiteHelper movieSQLiteHelper;
+    ReminderManager reminderManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+
         actionBar.setDisplayShowTitleEnabled(false);
         spinner.setAdapter(new SpinnerAdapter(
                 toolbar.getContext(),
@@ -72,7 +77,6 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mPosition = position;
-                System.out.println("OY OY OY");
                 if (!initLoader) {
                     initLoader = true;
                     getSupportLoaderManager().initLoader(LOAD_MOVIES_ID, null, MainActivity.this);
@@ -106,6 +110,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                 }
             }
         });
+        reminderManager = new ReminderManager(this);
         movieSQLiteHelper = new MovieSQLiteHelper(this);
         serviceInterface = RetrofitClient.init(this).create(ServiceInterface.class);
     }
@@ -119,6 +124,13 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem menuItem = menu.findItem(R.id.action_set_notification);
+        menuItem.setTitle(reminderManager.isTurnOn() ? getString(R.string.turn_off_notif) : getString(R.string.turn_on_notif));
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_change_language:
@@ -127,6 +139,17 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                 return true;
             case R.id.action_search:
                 openActivity(SearchActivity.class, null, false);
+                return true;
+            case R.id.action_set_notification:
+                if(reminderManager.isTurnOn()){
+                    reminderManager.turnOff(ReminderManager.DAILY);
+                    reminderManager.turnOff(ReminderManager.RELEASE_TODAY);
+                }else{
+                    reminderManager.turnOn(7, 0, 0, ReminderManager.DAILY, null);
+                    reminderManager.turnOn(8, 0, 0, ReminderManager.RELEASE_TODAY, null);
+                }
+                Toast.makeText(this, item.getTitle(), Toast.LENGTH_LONG).show();
+                item.setTitle(reminderManager.isTurnOn() ? getString(R.string.turn_off_notif) : getString(R.string.turn_on_notif));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -168,8 +191,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     }
 
     private List<Movie> loadData() {
-        System.out.println("LOADINBACKGROUND");
-        List<Movie> movieResult = new ArrayList<>();
+        List<Movie> movieResult;
         if (mPosition == 2) {
             movieSQLiteHelper.open();
             movieResult = movieSQLiteHelper.query(null, null, null);
@@ -180,7 +202,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
             try {
                 movieResult = callMovies.execute().body().getResults();
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.log(Log.ERROR, e.getMessage());
                 return null;
             }
         }

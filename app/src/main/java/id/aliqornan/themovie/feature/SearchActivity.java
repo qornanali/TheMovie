@@ -8,6 +8,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,8 +25,9 @@ import id.aliqornan.themovie.adapter.ItemClickListener;
 import id.aliqornan.themovie.adapter.ListMovieHolder;
 import id.aliqornan.themovie.data.RetrofitClient;
 import id.aliqornan.themovie.data.ServiceInterface;
+import id.aliqornan.themovie.lib.Logger;
 import id.aliqornan.themovie.model.Movie;
-import id.aliqornan.themovie.util.AsyncLoader;
+import id.aliqornan.themovie.model.AsyncLoader;
 
 public class SearchActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
@@ -115,7 +117,7 @@ public class SearchActivity extends BaseActivity implements LoaderManager.Loader
                     args.getString(PAGE))
                     .execute().body().getResults();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.log(Log.ERROR, e.getMessage());
             return null;
         }
     }

@@ -4,7 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <permission
         android:name="id.aliqornan.themovie.READ_DATABASE"
@@ -21,9 +22,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver android:name=".util.BroadcastManager">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
+                <!--<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />-->
+                <!--<action android:name="android.intent.action.BATTERY_CHANGED" />-->
+            <!--</intent-filter>-->
         </receiver>
         <provider
             android:name=".data.MovieLocalProvider"
@@ -55,13 +58,6 @@
         <service
             android:name=".util.StackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-        <service
-            android:name=".util.ReminderService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

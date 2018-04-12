@@ -15,4 +15,8 @@
     <string name="my_favorites">Favoritku</string>
     <string name="no_data">Tidak ada data</string>
     <string name="example">Contoh</string>
+    <string name="notif_release_today">Hari ini %s rilis!</string>
+    <string name="open_app">rindu padamu</string>
+    <string name="turn_off_notif">Matikan pemberitahuan</string>
+    <string name="turn_on_notif">Nyalakan pemberitahuan</string>
 </resources>

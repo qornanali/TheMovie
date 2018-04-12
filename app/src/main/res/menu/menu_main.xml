@@ -2,19 +2,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="id.aliqornan.themovie.feature.MainActivity">
-    <!--<item-->
-        <!--android:id="@+id/action_see_favorites"-->
-        <!--android:icon="@drawable/ic_favorite"-->
-        <!--android:title="@string/my_favorites"-->
-        <!--app:showAsAction="collapseActionView|ifRoom" />-->
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_action_search"
         android:title="@string/action_search"
         app:showAsAction="collapseActionView|ifRoom" />
-    <item
-        android:id="@+id/action_change_language"
-        android:orderInCategory="100"
-        android:title="@string/action_change_language"
-        app:showAsAction="never" />
+    <group>
+        <item
+            android:id="@+id/action_change_language"
+            android:orderInCategory="100"
+            android:title="@string/action_change_language"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_set_notification"
+            android:orderInCategory="100"
+            android:title="@string/turn_off_notif"
+            app:showAsAction="never" />
+    </group>
 </menu>

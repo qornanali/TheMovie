@@ -20,4 +20,8 @@
     <string name="my_favorites">My favorites</string>
     <string name="no_data">No data</string>
     <string name="example">Example</string>
+    <string name="turn_off_notif">Turn off notification</string>
+    <string name="turn_on_notif">Turn on notification</string>
+    <string name="notif_release_today" formatted="false">%s is released today!</string>
+    <string name="open_app">is missing you</string>
 </resources>

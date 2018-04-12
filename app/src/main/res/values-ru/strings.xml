@@ -15,4 +15,8 @@
     <string name="my_favorites">Мои избранные</string>
     <string name="no_data">Нет данных</string>
     <string name="example">пример</string>
+    <string name="notif_release_today">%s выпущен сегодня!</string>
+    <string name="open_app">вас не хватает</string>
+    <string name="turn_off_notif">Отключить уведомление</string>
+    <string name="turn_on_notif">Включить уведомление</string>
 </resources>

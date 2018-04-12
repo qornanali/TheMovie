@@ -28,6 +28,11 @@ public class DateFormatter {
         return calendar;
     }
 
+    public Calendar getCalendar(long source) throws Exception {
+        calendar.setTimeInMillis(source);
+        return calendar;
+    }
+
     public Date parseToDate(String source) throws Exception {
         Date result = sdf.parse(source);
         return result;

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,8 +18,9 @@ import id.aliqornan.themovie.BuildConfig;
 import id.aliqornan.themovie.R;
 import id.aliqornan.themovie.data.MovieSQLiteHelper;
 import id.aliqornan.themovie.lib.DateFormatter;
+import id.aliqornan.themovie.lib.Logger;
 import id.aliqornan.themovie.model.Movie;
-import id.aliqornan.themovie.util.AsyncLoader;
+import id.aliqornan.themovie.model.AsyncLoader;
 
 public class DetailMovieActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Movie> {
 
@@ -94,7 +96,7 @@ public class DetailMovieActivity extends BaseActivity implements LoaderManager.L
                     movieSQLiteHelper.close();
                     return movie;
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Logger.log(Log.ERROR, e.getMessage());
                     return null;
                 }
             }
@@ -105,6 +107,7 @@ public class DetailMovieActivity extends BaseActivity implements LoaderManager.L
     public void onLoadFinished(@NonNull android.support.v4.content.Loader<Movie> loader, Movie data) {
         try {
             setMovieFavorited(isFavorited);
+            actionBar.setTitle(data.getTitle());
             Picasso.with(this).load(BuildConfig.BASE_IMAGE + "w154" + movie.getPosterPath()).error(R.color.colorAccent).into(ivMoviePoster);
             Picasso.with(this).load(BuildConfig.BASE_IMAGE + "w500" + movie.getBackdropPath()).error(R.color.colorAccent).into(ivMovieBackdrop);
             setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
@@ -115,7 +118,7 @@ public class DetailMovieActivity extends BaseActivity implements LoaderManager.L
             tvMovieReleaseDate.setText(DateFormatter.format("MMM dd, yyyy").parseToString(
                     DateFormatter.format("yyyy-MM-dd").parseToDate(movie.getReleaseDate())));
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.log(Log.ERROR, e.getMessage());
         }
     }
 

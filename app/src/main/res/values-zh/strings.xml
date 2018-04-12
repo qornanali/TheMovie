@@ -15,4 +15,8 @@
     <string name="my_favorites">我的最爱</string>
     <string name="no_data">没有数据</string>
     <string name="example">例子</string>
+    <string name="notif_release_today">%s 今天发布!</string>
+    <string name="open_app">想念你</string>
+    <string name="turn_off_notif">关闭通知</string>
+    <string name="turn_on_notif">打开通知</string>
 </resources>

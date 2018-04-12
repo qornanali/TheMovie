@@ -15,4 +15,8 @@
     <string name="my_favorites">Mis favoritos</string>
     <string name="no_data">Sin datos</string>
     <string name="example">Ejemplo</string>
+    <string name="notif_release_today">%s es lanzado hoy!</string>
+    <string name="open_app">te extraña</string>
+    <string name="turn_off_notif">Desactivar notificaciones</string>
+    <string name="turn_on_notif">Activar notificación</string>
 </resources>
