@@ -38,5 +38,4 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE](https:
 
 ## Acknowledgments
 
-* [Menjadi Android Developer Expert](https://www.dicoding.com/academies/14) by Google ATP & Dicoding
-* [
+* [Menjadi Android Developer Expert](https://www.dicoding.com/academies/14?course_ref=da6ff2bd57f983eee54fd49e) by Google ATP & Dicoding
